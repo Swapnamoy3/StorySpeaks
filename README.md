@@ -26,6 +26,9 @@ StorySpeaks is a web application that allows users to convert PDF storybooks int
 ## Setup and Installation
 To get StorySpeaks up and running on your local machine, follow these steps:
 
+**Prerequisites:**
+- Python 3.12.4
+
 1.  **Clone the repository:**
     ```bash
     git clone https://github.com/Swapnamoy3/StorySpeaks.git
