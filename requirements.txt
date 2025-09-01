@@ -18,4 +18,3 @@ edge-tts
 pypdf==6.0.0
 audioop-lts
 python-multipart
-python -m nltk.downloader -d /opt/render/nltk_data -r nltk.txt
