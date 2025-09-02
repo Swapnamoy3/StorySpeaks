@@ -12,7 +12,6 @@ starlette==0.46.2
 typing-inspection==0.4.1
 typing_extensions==4.13.2
 uvicorn==0.34.2
-nltk==3.9.1
 pydub==0.25.1
 edge-tts
 pypdf==6.0.0

@@ -1,11 +1,8 @@
-import nltk, os
+import re
 import logging
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-nltk.data.path.append("/opt/render/nltk_data")
-
 
 
 def split_text_into_chunks(text: str, max_sentences_per_chunk: int = 10) -> list[str]:
@@ -14,11 +11,12 @@ def split_text_into_chunks(text: str, max_sentences_per_chunk: int = 10) -> list
         return []
 
     try:
-        sentences = nltk.sent_tokenize(text.replace('\n', ' '))
+        # A more robust regex to split sentences
+        sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', text.replace('\n', ' '))
         sentences = [s.strip() for s in sentences if s.strip()]
 
         if not sentences:
-            logging.warning("NLTK sentence tokenization resulted in no sentences.")
+            logging.warning("Sentence tokenization resulted in no sentences.")
             return []
 
         chunks = []
@@ -32,9 +30,6 @@ def split_text_into_chunks(text: str, max_sentences_per_chunk: int = 10) -> list
         logging.info(f"Split text into {len(chunks)} chunks.")
         return chunks
 
-    except LookupError:
-        logging.error("NLTK punkt tokenizer data not found. Please ensure 'nltk.download('punkt')' ran successfully.")
-        raise
     except Exception as e:
         logging.error(f"Error during text splitting: {e}")
         raise
