@@ -1,23 +1,25 @@
-import nltk
-
+import nltk, os
 import logging
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Download necessary NLTK data if not already present
-try:
-    nltk.data.find('tokenizers/punkt')
-    logging.info("NLTK punkt tokenizer data found.")
-except LookupError:
-    logging.warning("NLTK punkt tokenizer data not found. Attempting to download...")
-    try:
-        logging.info(f"NLTK data path: {nltk.data.path}")
-        nltk.download('punkt')
-        logging.info("NLTK punkt tokenizer data downloaded successfully.")
-    except Exception as e:
-        logging.error(f"Failed to download NLTK punkt data: {e}")
-        raise
+def download_NLTK():
+    download_dir = os.path.join(os.path.dirname(__file__), 'nltk_data')
+    if not os.path.exists(os.path.join(download_dir, 'tokenizers', 'punkt')):
+        logging.warning("NLTK punkt tokenizer data not found. Attempting to download...")
+        try:
+            nltk.download('punkt', download_dir=download_dir)
+            logging.info(f"NLTK punkt tokenizer data downloaded successfully to {download_dir}.")
+        except Exception as e:
+            logging.error(f"Failed to download NLTK punkt data: {e}")
+            raise
+    else:
+        logging.info("NLTK punkt tokenizer data found.")
+    nltk.data.path.append(download_dir)
+
+download_NLTK()
 
 
 def split_text_into_chunks(text: str, max_sentences_per_chunk: int = 10) -> list[str]:
