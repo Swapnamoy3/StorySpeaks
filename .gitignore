@@ -164,6 +164,9 @@ cython_debug/
 # CPH
 .cph/
 
+# NLTK Data
+nltk_data/
+
 
 # Generated audio files
 generated_audio/
