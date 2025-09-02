@@ -13,6 +13,7 @@ def download_NLTK():
     except LookupError:
         logging.warning("NLTK punkt tokenizer data not found. Attempting to download...")
         try:
+            logging.info(f"NLTK data path: {nltk.data.path}")
             nltk.download('punkt')
             logging.info("NLTK punkt tokenizer data downloaded successfully.")
         except Exception as e:
