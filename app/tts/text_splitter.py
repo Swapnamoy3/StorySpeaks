@@ -1,9 +1,15 @@
-import re
+import spacy
 import logging
 
 # Setup Logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+# Load the spaCy model
+try:
+    nlp = spacy.load("en_core_web_sm")
+except OSError:
+    logging.error("spaCy model 'en_core_web_sm' not found. Please run 'python -m spacy download en_core_web_sm'")
+    raise
 
 def split_text_into_chunks(text: str, max_sentences_per_chunk: int = 10) -> list[str]:
     if not text or not text.strip():
@@ -11,12 +17,12 @@ def split_text_into_chunks(text: str, max_sentences_per_chunk: int = 10) -> list
         return []
 
     try:
-        # A more robust regex to split sentences
-        sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', text.replace('\n', ' '))
-        sentences = [s.strip() for s in sentences if s.strip()]
+        # Process the text with spaCy
+        doc = nlp(text.replace('\n', ' '))
+        sentences = [sent.text.strip() for sent in doc.sents]
 
         if not sentences:
-            logging.warning("Sentence tokenization resulted in no sentences.")
+            logging.warning("spaCy sentence tokenization resulted in no sentences.")
             return []
 
         chunks = []

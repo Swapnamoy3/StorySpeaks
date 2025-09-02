@@ -3,8 +3,8 @@
 # Install dependencies
 pip install -r requirements.txt
 
-# Download NLTK data
-python -m nltk.downloader punkt -d /opt/render/nltk_data
+# Download spaCy model
+python -m spacy download en_core_web_sm
 
 # Start the server
 uvicorn app.main:app --host 0.0.0.0 --port 10000
